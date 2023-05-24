@@ -79,9 +79,14 @@ namespace Library_Managment_App
             int recordCount = ds.Tables[0].Rows.Count;
             if (recordCount > 0)
             {
-                ds.Tables[0].Rows[0].Delete();
-                SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
-                adapter.Update(ds);
+                try
+                {
+                    ds.Tables[0].Rows[0].Delete();
+                    SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
+                    adapter.Update(ds);
+                }catch(Exception) {
+                    AnsiConsole.MarkupLine("[red]U can not delete this book because it is already assigned to student!![/]");
+                }                
                 AnsiConsole.MarkupLine($"[green]Book Deleted Successfully!![/]");
                 return recordCount;
             }
